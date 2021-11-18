@@ -17,14 +17,6 @@ export class HeroSearchComponent implements OnInit {
 
   //observable
   heroes$!: Observable<Hero[]>;
-  private searchTerms = new Subject<string>();
-
-  constructor(private heroService: HeroService) { }
-
-  //Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
 
   ngOnInit(): void {
     this.heroes$ = this.searchTerms.pipe(
@@ -38,5 +30,16 @@ export class HeroSearchComponent implements OnInit {
       switchMap((term: string) => this.heroService.searchHeroes(term)),
     );
   }
+
+  //"Subject" é uma fonte de valores observáveis. Ele também é um observable.
+  private searchTerms = new Subject<string>();
+
+  constructor(private heroService: HeroService) { }
+
+  //Push a search term into the observable stream.
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+
 
 }
